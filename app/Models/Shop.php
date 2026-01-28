@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\ShopStatus;
 use Illuminate\Database\Eloquent\Model;
 
 class Shop extends Model
 {
-    /** @use HasFactory<\Database\Factories\ShopFactory> */
-    use HasFactory;
-    protected $fillable = ['location','phone','openingTime','closingTime','status'];
+    protected $fillable = ['location', 'phone', 'openingTime', 'closingTime', 'status'];
+    
+    protected $casts = [
+        'status' => ShopStatus::class,
+        'openingTime' => 'datetime:H:i',
+        'closingTime' => 'datetime:H:i',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 }
