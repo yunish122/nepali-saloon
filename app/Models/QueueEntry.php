@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class QueueEntry extends Model
+{
+    /** @use HasFactory<\Database\Factories\QueueEntryFactory> */
+    use HasFactory;
+    protected $fillable = [
+        'day',
+        'default_duration'
+    ];
+}
