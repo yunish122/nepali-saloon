@@ -22,4 +22,8 @@ class Service extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+    
+    public function shop(){
+        return $this->belongsTo(Shop::class);
+    }
 }

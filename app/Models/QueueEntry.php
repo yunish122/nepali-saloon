@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\DayOfWeekStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Queue;
 
 class QueueEntry extends Model
 {
@@ -20,4 +21,12 @@ class QueueEntry extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function queue_entry()  {
+        return $this->belongsTo(Queue::class);
+    }
+
+    public function payment(){
+        return $this->hasOne(QueueEntry::class);
+    }
 }

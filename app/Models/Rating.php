@@ -20,4 +20,12 @@ class Rating extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function shop(){
+        return $this->belongsTo(Shop::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

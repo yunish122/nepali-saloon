@@ -18,4 +18,12 @@ class Queue extends Model
         'status'
     ];
     protected $casts = ['status'=>QueueStatus::class,'day'=>DayOfWeekStatus::class,'default_duration'=>'integer'];
+
+    public function shop(){
+        return $this->belongsTo(Shop::class);
+    }
+    
+    public function queue_entry(){
+        return $this->hasMany(QueueEntry::class);
+    }
 }
