@@ -8,7 +8,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Invarient\RoleSeeder;
 use Database\Seeders\Invarient\PermissionSeeders;
-use Database\Seeders\Invarient\RolesPermissionSeeders;
+use Database\Seeders\RolesPermissionSeeders;
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;

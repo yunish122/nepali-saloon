@@ -19,6 +19,7 @@ class PermissionSeeders extends Seeder
             'update_status.shop',
             'delete.shop',
             'block.shop',
+            'create.shop',
 
             // Service
             'create.service',
@@ -38,6 +39,7 @@ class PermissionSeeders extends Seeder
             'update.payment',
             'refund.payment',
             'make.payment',
+            'payment.update',
             // Rating
             'submit.rating',
 
@@ -51,7 +53,7 @@ class PermissionSeeders extends Seeder
         ];
 
         foreach($permissions as $p){
-            Permission::firstOrCreate(['name'=>$p]);
+            Permission::firstOrCreate(['name'=>$p,'guard_name'=>'web']);
         }
 
     }

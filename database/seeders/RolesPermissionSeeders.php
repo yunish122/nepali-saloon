@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Invarient;
+namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,6 +17,7 @@ class RolesPermissionSeeders extends Seeder
             'update_status.shop',
             'delete.shop',
             'block.shop',
+            'create.shop',
             'create.service',
             'update.service',
             'delete.service',
