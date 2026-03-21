@@ -8,6 +8,13 @@ use Illuminate\Auth\Access\Response;
 
 class ShopPolicy
 {
+    public function before(User $user){
+        if($user->hasRole('admin')){
+            return true;
+        }
+        return null;
+        
+    }
     /**
      * Determine whether the user can view any models.
      */
@@ -29,7 +36,7 @@ class ShopPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasRole('owner');
     }
 
     /**
@@ -37,7 +44,7 @@ class ShopPolicy
      */
     public function update(User $user, Shop $shop): bool
     {
-        return false;
+        return $user->id === $shop->user_id;
     }
 
     /**
@@ -45,7 +52,7 @@ class ShopPolicy
      */
     public function delete(User $user, Shop $shop): bool
     {
-        return false;
+        return $user->id === $shop->user_id;
     }
 
     /**

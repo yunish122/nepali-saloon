@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\DayOfWeekStatus;
+use App\Enums\QueueStatus;
+use App\Models\Shop;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +20,10 @@ class QueueFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'day' => fake()->randomElement(DayOfWeekStatus::cases()),
+            'default_duration' => fake()->numberBetween(20,60),
+            'status'=>QueueStatus::open,
+            'shop_id'=>Shop::factory()
         ];
     }
 }

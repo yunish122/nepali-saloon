@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('shop_name')->unique();
             $table->string('location');
             $table->string('phone')->unique();
             $table->time('opening_time');

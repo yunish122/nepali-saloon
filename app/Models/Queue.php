@@ -15,7 +15,8 @@ class Queue extends Model
     protected $fillable = [
         'default_duration',
         'day',
-        'status'
+        'status',
+        'shop_id'
     ];
     protected $casts = ['status'=>QueueStatus::class,'day'=>DayOfWeekStatus::class,'default_duration'=>'integer'];
 

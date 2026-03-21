@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Queue;
 use App\Models\Service;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Shop extends Model
 {
-    protected $fillable = ['location', 'phone', 'openingTime', 'closingTime', 'status'];
+    use HasFactory;
+    protected $fillable = ['location', 'phone', 'opening_time', 'closing_time', 'status','shop_name','user_id'];
     
     protected $casts = [
         'status' => ShopStatus::class,
