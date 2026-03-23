@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\NoMoreThanThreeShopException;
 use App\Http\Requests\CreateShopRequest;
+use App\Http\Requests\UpdateShopRequest;
+use App\Models\Shop;
 use App\Services\CreateShopService;
+use App\Services\UpdateShopService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    public function __construct( private CreateShopService $service)
+    public function __construct( private CreateShopService $service,private UpdateShopService $updateService)
     {}
     /**
      * Display a listing of the resource.
@@ -42,9 +45,10 @@ class ShopController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateShopRequest $request, Shop $shop)
     {
-        //
+        $updated = $this->updateService->update_shop($shop,$request->validated());
+        return response()->json($updated,200);
     }
 
     /**
