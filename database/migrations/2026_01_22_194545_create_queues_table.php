@@ -17,7 +17,7 @@ return new class extends Migration
             $table->tinyInteger('day');
             $table->integer('default_duration')->unsigned();
             $table->tinyInteger('status');
-            $table->foreignId('shop_id')->constrained();
+            $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
         });
     }
 
