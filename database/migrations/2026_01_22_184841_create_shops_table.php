@@ -20,7 +20,8 @@ return new class extends Migration
             $table->time('opening_time');
             $table->time('closing_time');
             $table->tinyInteger('status');
-            $table->foreignId('user_id');       
+            $table->foreignId('user_id');      
+            $table->softDeletes(); 
         });
     }
 

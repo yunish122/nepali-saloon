@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DayOfWeekStatus;
+use App\Enums\QueueEntryStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Queue;
@@ -18,6 +19,7 @@ class QueueEntry extends Model
     ];
     protected $casts = [
         'day' => DayOfWeekStatus::class,
+        'status' => QueueEntryStatus::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

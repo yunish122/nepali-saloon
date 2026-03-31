@@ -8,10 +8,12 @@ use App\Models\User;
 use App\Models\Queue;
 use App\Models\Service;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Shop extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $fillable = ['location', 'phone', 'opening_time', 'closing_time', 'status','shop_name','user_id'];
     
     protected $casts = [
