@@ -16,10 +16,10 @@ return new class extends Migration
             $table->timestamps();
             $table->decimal('cost')->unsigned();
             $table->integer('duration')->unsigned();
-            $table->string('service_name')->unique();
+            $table->string('service_name');
             $table->foreignId('user_id')->constrained();
             $table->foreignId('shop_id')->constrained();
-            
+            $table->unique('shop_id','service_name');
         });
     }
 
