@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phoneNum')->nullable();
             $table->string('password');
             $table->timestamps();
+            $table->unsignedBigInteger('shop_id')->nullable();
         });
 
     }
