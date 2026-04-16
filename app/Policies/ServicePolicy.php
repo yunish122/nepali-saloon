@@ -39,9 +39,10 @@ class ServicePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Service $service): bool
+    public function update(User $user): bool
     {
-        return false;
+        $arg1 = $user->hasRole('owner') || $user->hasRole('staff');
+        return $arg1;
     }
 
     /**

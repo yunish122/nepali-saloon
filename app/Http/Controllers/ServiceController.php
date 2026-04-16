@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CanNotDeleteServiceException;
 use App\Http\Requests\CreateServiceRequest;
+use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
 use App\Models\Shop;
 use App\Models\User;
 use App\Services\CreateServiceService;
 use App\Services\DeleteServiceService;
+use App\Services\UpdateServiceService;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    public function __construct(private CreateServiceService $create_service_service,private DeleteServiceService $delete_service)
+    public function __construct(private CreateServiceService $create_service_service,private DeleteServiceService $delete_service, private UpdateServiceService $update_service_service)
     {}
     /**
      * Display a listing of the resource.
@@ -45,9 +47,10 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Service $service)
+    public function update(UpdateServiceRequest $request, Service $service)
     {
-        //
+        $serv = $this->update_service_service->update_service($service,$request->validated());
+        return $serv;
     }
 
 
