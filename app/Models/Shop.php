@@ -36,6 +36,10 @@ class Shop extends Model
         return $this->hasMany(Service::class);
     }
 
+    public function queueEntry() {
+        return $this->hasMany(QueueEntry::class);
+    }
+
     public function rating(){
         return $this->hasMany(Rating::class);
     }

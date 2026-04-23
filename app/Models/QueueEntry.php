@@ -2,33 +2,45 @@
 
 namespace App\Models;
 
-use App\Enums\DayOfWeekStatus;
 use App\Enums\QueueEntryStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Queue;
 
 class QueueEntry extends Model
 {
-    /** @use HasFactory<\Database\Factories\QueueEntryFactory> */
     use HasFactory;
+
     protected $fillable = [
-        'day',
-        'default_duration',
-        'service_id'
+        'queue_id',
+        'shop_id',
+        'service_id',
+        'user_id',
+        'status',
     ];
+
     protected $casts = [
-        'day' => DayOfWeekStatus::class,
         'status' => QueueEntryStatus::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
-    public function queue_entry()  {
+    public function queue()
+    {
         return $this->belongsTo(Queue::class);
     }
 
-    public function payment(){
+    public function payment()
+    {
         return $this->hasOne(QueueEntry::class);
+    }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

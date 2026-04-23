@@ -2,6 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Enums\QueueEntryStatus;
+use App\Enums\QueueStatus;
+use App\Models\Queue;
+use App\Models\Service;
+use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +23,11 @@ class QueueEntryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'shop_id'=>Shop::class,
+            'queue_id'=>Queue::class,
+            'service_id'=>Service::class,
+            'user_id'=>User::class,
+            'status'=>QueueEntryStatus::pending
         ];
     }
 }

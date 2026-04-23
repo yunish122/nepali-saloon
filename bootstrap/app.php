@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\DuplicateQueueEntryException;
 use App\Exceptions\NoMoreThanThreeShopException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -23,6 +24,10 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->renderable(function(NoMoreThanThreeShopException $e){
+            return response()->json(['error'=>$e->getMessage()],422);
+        });
+
+        $exceptions->renderable(function (DuplicateQueueEntryException $e){
             return response()->json(['error'=>$e->getMessage()],422);
         });
     })->create();
