@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Enums\QueueEntryStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class QueueEntry extends Model
 {
     use HasFactory;
-
+    use SoftDeletes;
     protected $fillable = [
         'queue_id',
         'shop_id',

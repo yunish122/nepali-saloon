@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('service_id')->constrained()->cascadeOnDelete();
             $table->tinyInteger('status');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->softDeletes();
         });
     }
 

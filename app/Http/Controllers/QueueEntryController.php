@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\DuplicateQueueEntryException;
+use App\Exceptions\InvalidQueueEntry;
+use App\Models\QueueEntry;
 use App\Models\Service;
 use App\Models\Shop;
 use App\Models\User;
+use App\Services\DeleteQueueEntryService;
 use App\Services\CreateQueueEntryService;
 use Illuminate\Http\Request;
 
 class QueueEntryController extends Controller
 {
-    public function __construct(private CreateQueueEntryService $queueEntry) {}
+    use \Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+    public function __construct(private CreateQueueEntryService $queueEntry, private DeleteQueueEntryService $delete_queue_entry) {}
 
     /**
      * Display a listing of the resource.
@@ -26,7 +31,7 @@ class QueueEntryController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $validated = $request->validate([
                 'queue_id' => ['required', 'exists:queues,id'],
                 'service_id' => ['required', 'exists:services,id'],
@@ -38,10 +43,11 @@ class QueueEntryController extends Controller
             $shop = Shop::findOrFail($service->shop_id);
 
             $qEntry = $this->queueEntry->execute($shop->queue, $user, $shop, $service);
+
             return response()->json($qEntry, 201);
 
-        }catch(DuplicateQueueEntryException $e){
-            return response()->json(['error'=>$e->getMessage()],411);
+        } catch (DuplicateQueueEntryException $e) {
+            return response()->json(['error' => $e->getMessage()], 411);
         }
 
     }
@@ -65,8 +71,15 @@ class QueueEntryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(QueueEntry $queueEntry)
     {
-        //
+        try{
+            $this->authorize('delete', $queueEntry);
+            $this->delete_queue_entry->execute($queueEntry);
+            return response()->noContent();            
+        }catch(InvalidQueueEntry $e){
+            return response()->json(['error'=>$e->getMessage()],422);
+        }
+  
     }
 }
