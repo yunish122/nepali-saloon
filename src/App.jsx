@@ -1,0 +1,36 @@
+import Homepage from './pages/Homepage';
+import Feature from './components/home/components/Feature';
+import Modal from './components/ui/Modal';
+import CTA from './components/home/components/CTA';
+import Footer from './components/Footer';
+import CustomerPage from './pages/CustomerPage/CustomerPage';
+import CustomerQueuePage from './pages/CustomerPage/CustomerQueuePage';
+import {
+	Routes,
+	Route
+} from "react-router-dom";
+import LogOutModal from './components/LogOutModal';
+import CustomerNavbar from './components/features/customer/CustomerNavbar';
+import CustomerViewDetailPage from './pages/CustomerPage/CustomerViewDetailPage';
+import OwnerPage from './pages/OwnerPage/OwnerPage';
+import ServicePage from './pages/OwnerPage/ServicePage';
+
+
+
+function App() {
+	return (
+
+
+		<Routes>
+			<Route path='/' element={<Homepage></Homepage>}></Route>
+			<Route path='/queues' element={<CustomerQueuePage></CustomerQueuePage>}></Route>
+			<Route path='/customerHomepage' element={<CustomerPage></CustomerPage>}></Route>
+			<Route path='/viewDetailsShop' element={<CustomerViewDetailPage></CustomerViewDetailPage>}></Route>
+			<Route path='/owner/path' element={<OwnerPage></OwnerPage>}></Route>
+			<Route path='/owner/service' element={<ServicePage></ServicePage>}></Route>
+		</Routes>
+
+	)
+}
+
+export default App
