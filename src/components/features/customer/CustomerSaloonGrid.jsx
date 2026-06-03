@@ -46,7 +46,7 @@ function CustomerSaloonGrid({ shopName = 'Elegance Salon', location = 'Kathmandu
                 </div>
 
                 <div className="flex gap-2">
-                    <Link to={'/viewDetailsShop'}><Button title="View Details" size="sm" className="hover:cursor-pointer flex-1 bg-black text-white rounded-md" /></Link>
+                    <Link to={'/customer/salon'}><Button title="View Details" size="sm" className="hover:cursor-pointer flex-1 bg-black text-white rounded-md" /></Link>
                     <Button title="Contact" size="sm" className="bg-white border hover:cursor-pointer border-slate-200 text-gray-700 rounded-md" />
                 </div>
 
