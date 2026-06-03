@@ -1,8 +1,7 @@
 import ServiceCard from "../../../ui/ServiceCard"
 
-function ServiceGrid({ services = [], onEdit, onDelete }) {
+function ServiceGrid({ services = [], onDelete, updateEditCardState, updateData, setServiceData, }) {
     const serviceList = Array.isArray(services) ? services : []
-
     return (
         <div className="grid grid-cols-2 gap-5">
             {
@@ -14,8 +13,9 @@ function ServiceGrid({ services = [], onEdit, onDelete }) {
                         duration={val.duration}
                         priority={"High"}
                         demandText={"Adjust based on bookings"}
-                        onEdit={onEdit}
-                        onDelete={()=>{onDelete(val.id)}}
+                        onDelete={() => { onDelete && onDelete(val.id) }}
+                        updateData={()=>{updateData(val)}}
+                        updateEditCardState={()=>{updateEditCardState(val)}}
                     />
                 ))
             }

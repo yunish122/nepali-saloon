@@ -1,5 +1,5 @@
 import Button from './Button';
-import { Pencil, Trash, TrendingUp } from 'lucide-react';
+import { Trash, TrendingUp, Pencil } from 'lucide-react';
 import StatBox from './ServiceBox';
 function PriorityPill({ level = 'low' }) {
     const map = {
@@ -14,17 +14,18 @@ function PriorityPill({ level = 'low' }) {
     );
 }
 
-
-
 function ServiceCard({
     title = 'Hair Cut',
     price = 'Rs. 500',
     duration = '30 min',
     priority = 'high',
     demandText = 'Adjust based on bookings',
-    onEdit,
     onDelete,
-}) {
+    updateEditCardState,
+    
+    
+}) 
+{
     return (
         <article className="group max-w-xl relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-transform duration-150 hover:-translate-y-0.5 hover:border-violet-300">
             <div className="flex items-start justify-between">
@@ -51,25 +52,28 @@ function ServiceCard({
 
             <div className="mt-6 border-t border-slate-100 pt-4">
                 <div className="flex gap-4">
-                    <Button
+                   <Button
                         type="button"
-                        onClick={onEdit}
-                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-white border border-slate-100 px-4 py-3 text-slate-700 font-medium shadow-sm hover:bg-slate-50"
+                        onClick={()=>{updateEditCardState()
+                            
+                        }}
+                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-white font-medium shadow-md hover:cursor-pointer"
                     >
-                        <Pencil size={16} />
-                        Edit
-                    </Button>
-
+                        <Pencil className='text-black' size={16} />
+                        <span className='text-black'>Edit</span>
+                    </Button>                  
+                    
                     <Button
                         type="button"
                         onClick={onDelete}
-                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-red-700 px-4 py-3 text-white font-medium shadow-md hover:bg-rose-700"
+                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-red-700 px-4 py-3 text-white font-medium shadow-md hover:cursor-pointer hover:bg-rose-700"
                     >
                         <Trash size={16} />
                         Delete
                     </Button>
                 </div>
             </div>
+
         </article>
     );
 }

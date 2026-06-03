@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import Button from '../../../ui/Button';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
-function ServiceHeading({ formData, setFormData, updateCardState, updateWordPress, addService, setIsOpen, isOpen }) {
+function ServiceHeading({ formData, setFormData, updateCardState,closeCard, updateWordPress, addService, setIsOpen, isOpen, isOpenEdit, isEditing,saveServiceEdit }) {
 
 
 
@@ -12,7 +13,7 @@ function ServiceHeading({ formData, setFormData, updateCardState, updateWordPres
     //confustion chai k thyo? why in js obj does left side need [] but right side dont? kina ki left side is treated as literal string but right side is computed automatcially.
     //left side lai chai lteral string line bhakole we need to wrap it inside [] to save it from getting transformed as a string
     //[] bhayo bhane chaii js is enforced to evaluate
-
+    let navigate = useNavigate()
     return (
         <>
             <div className="flex items-center justify-between">
@@ -27,6 +28,7 @@ function ServiceHeading({ formData, setFormData, updateCardState, updateWordPres
                         size="md"
                         className="rounded-lg border border-slate-400/40 px-2 py-1 font-medium text-black shadow-sm"
                     >
+                        <Link ></Link>
                         Back
                     </Button>
                     <div onClick={updateCardState}>
@@ -42,6 +44,7 @@ function ServiceHeading({ formData, setFormData, updateCardState, updateWordPres
 
                 </div>
             </div>
+
 
             {isOpen && (
                 <div
@@ -127,6 +130,8 @@ function ServiceHeading({ formData, setFormData, updateCardState, updateWordPres
                     </div>
                 </div>
             )}
+
+           
         </>
     );
 }

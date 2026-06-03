@@ -23,9 +23,12 @@ function App() {
 
 		<Routes>
 			<Route path='/' element={<Homepage></Homepage>}></Route>
-			<Route path='/queues' element={<CustomerQueuePage></CustomerQueuePage>}></Route>
-			<Route path='/customerHomepage' element={<CustomerPage></CustomerPage>}></Route>
-			<Route path='/viewDetailsShop' element={<CustomerViewDetailPage></CustomerViewDetailPage>}></Route>
+
+			{/* customer */}
+			<Route path='/customer' element={<CustomerPage></CustomerPage>}></Route>
+			<Route path='/customer/my-queue' element={<CustomerQueuePage></CustomerQueuePage>}></Route>
+			<Route path='/customer/salon' element={<CustomerViewDetailPage></CustomerViewDetailPage>}></Route>
+			
 			<Route path='/owner/path' element={<OwnerPage></OwnerPage>}></Route>
 			<Route path='/owner/service' element={<ServicePage></ServicePage>}></Route>
 		</Routes>
