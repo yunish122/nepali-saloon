@@ -1,6 +1,6 @@
 import Button from '../../ui/Button'
 
-export default function OwnerSettingsUI(props) {
+export default function OwnerSettingsUI({services, onAddService, onCancel, onSave, onToggleOpen, salonStatus, isEditing, toggleIsEditing,editFormData}) {
     // Props (placeholders):
     // - values: { name, phone, address, description, openingTime, closingTime, isOpen }
     // - onChange(field, value)
@@ -10,19 +10,15 @@ export default function OwnerSettingsUI(props) {
     // - onAddService()
     // - onCancel()
     // - onSave()
-    const {
-        values = {},
-        onChange = () => { },
-        onToggleOpen = () => { },
-        services = [],
-        onEditService = () => { },
-        onAddService = () => { },
-        onCancel = () => { },
-        onSave = () => { },
-    } = props
-
+    editFormData = {
+        id: 0,
+        service_name: 'asjdf',
+        cost: 120,
+        duration: 120
+    }
+    console.log(services)
     return (
-        <div className=" min-h-screen mt-5 flex justify-center w-screen">
+        <div className="realtive min-h-screen mt-5 flex justify-center w-screen">
             <div className="flex w-full max-w-3xl flex-col items-strech gap-5 ">
                 {/* max-w le chai euta max with matra ensure garxa, to make it strech we need w-full */}
 
@@ -50,22 +46,22 @@ export default function OwnerSettingsUI(props) {
                         <div className="grid grid-cols-2 gap-6">
                             <div>
                                 <label className="text-sm text-slate-700">Salon Name</label>
-                                <input value={values.name || ''} onChange={(e) => onChange('name', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
+                                <input value={ ''} onChange={(e) => onChange('name', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
                             </div>
                             <div>
                                 <label className="text-sm text-slate-700">Phone Number</label>
-                                <input value={values.phone || ''} onChange={(e) => onChange('phone', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
+                                <input value={ ''} onChange={(e) => onChange('phone', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
                             </div>
                         </div>
 
                         <div className="">
                             <label className="text-sm text-slate-700">Address</label>
-                            <input value={values.address || ''} onChange={(e) => onChange('address', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
+                            <input value={ ''} onChange={(e) => onChange('address', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
                         </div>
 
                         <div className="">
                             <label className="text-sm text-slate-700">Description</label>
-                            <textarea value={values.description || ''} onChange={(e) => onChange('description', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 h-36 bg-white" />
+                            <textarea value={''} onChange={(e) => onChange('description', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 h-36 bg-white" />
                         </div>
                     </div>
 
@@ -77,11 +73,11 @@ export default function OwnerSettingsUI(props) {
                         <div className="grid grid-cols-2 gap-6 items-center">
                             <div>
                                 <label className="text-sm text-slate-700">Opening Time</label>
-                                <input type="time" value={values.openingTime || ''} onChange={(e) => onChange('openingTime', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
+                                <input type="time" value={''} onChange={(e) => onChange('openingTime', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
                             </div>
                             <div>
                                 <label className="text-sm text-slate-700">Closing Time</label>
-                                <input type="time" value={values.closingTime || ''} onChange={(e) => onChange('closingTime', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
+                                <input type="time" value={ ''} onChange={(e) => onChange('closingTime', e.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white" />
                             </div>
                         </div>
                     </div>
@@ -100,11 +96,10 @@ export default function OwnerSettingsUI(props) {
                                 <button
                                     type="button"
                                     role="switch"
-                                    aria-checked={!!values.isOpen}
-                                    onClick={() => onToggleOpen(!values.isOpen)}
-                                    className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors duration-200 ${values.isOpen ? 'bg-slate-900' : 'bg-slate-200'}`}
+                                    onClick={() => onToggleOpen()}
+                                    className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors duration-200 ${salonStatus ? 'bg-slate-900' : 'bg-slate-200'}`}
                                 >
-                                    <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform duration-200 ${values.isOpen ? 'translate-x-5' : 'translate-x-1'}`} />
+                                    <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform duration-200 ${salonStatus ? 'translate-x-6' : 'translate-x-1'}`} />
                                 </button>
                             </div>
                         </div>
@@ -115,15 +110,15 @@ export default function OwnerSettingsUI(props) {
                         <h3 className="font-semibold">Services</h3>
                         <p className="text-sm text-slate-500">Manage salon services and pricing</p>
 
-                        <div className="">
+                        <div className="flex flex-col gap-5 mt-5">
                             {services.map((s) => (
-                                <div key={s.id} className="flex items-center justify-between rounded-md border px-4 py-3 bg-white">
+                                <div key={s.id} className="flex items-center justify-between rounded-md border border-slate-300/50 px-4 py-3 bg-white ">
                                     <div>
                                         <div className="font-medium">{s.service_name}</div>
                                         <div className="text-sm text-slate-500">Rs. {s.cost} • {s.duration} min</div>
                                     </div>
                                     <div>
-                                        <button onClick={() => onEditService(s.id)} className="text-sm text-slate-700">Edit</button>
+                                        <button onClick={() => toggleIsEditing(s.id)} className="text-sm text-slate-700">Edit</button>
                                     </div>
                                 </div>
                             ))}
@@ -141,6 +136,66 @@ export default function OwnerSettingsUI(props) {
                     </div>
                 </div>
             </div>
+
+            {isEditing && (
+                <form
+                    className="mt-5 space-y-4 absolute"
+                    onSubmit={(e)=>{e.preventDefault();saveEditedData(editFormData.id)}}
+                >
+                    <div>
+                        <label className="mb-1 block text-sm font-medium text-slate-700" htmlFor="serviceName">
+                            Service Name
+                        </label>
+                        <input
+                            id="serviceName"
+                            name="service_name"
+                            onChange={(e)=>{onWordPressEdit(e)}}
+                            value={editFormData.service_name}
+                            placeholder="e.g. Hair Color"
+                            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-slate-400"
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-slate-700" htmlFor="cost">
+                                Price (Rs.)
+                            </label>
+                            <input
+                                name="cost"
+                                id="cost"
+                                onChange={(e)=>{onWordPressEdit(e)}}
+                                value={editFormData.cost}
+                                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-slate-400"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-slate-700" htmlFor="duration">
+                                Duration (min)
+                            </label>
+                            <input
+                                name="duration"
+                                id="duration"
+                                onChange={(e)=>{onWordPressEdit(e)}}
+                                value={editFormData.duration}
+                                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-slate-400"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="pt-1">
+                        <Button
+                            type="submit"
+                            size="md"
+                            className="w-full rounded-xl bg-slate-900 px-4 py-3 font-medium text-white shadow-sm transition hover:bg-slate-800"
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                </form>
+            )}
+            
         </div>
     )
 }

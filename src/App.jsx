@@ -14,6 +14,8 @@ import CustomerNavbar from './components/features/customer/CustomerNavbar';
 import CustomerViewDetailPage from './pages/CustomerPage/CustomerViewDetailPage';
 import OwnerPage from './pages/OwnerPage/OwnerPage';
 import ServicePage from './pages/OwnerPage/ServicePage';
+import OwnerSettingsUI from './components/features/Owner/OwnerSettingsUI';
+import OwnerSettingsPage from './pages/OwnerPage/OwnerSettingPage';
 
 
 
@@ -31,6 +33,8 @@ function App() {
 			
 			<Route path='/owner/path' element={<OwnerPage></OwnerPage>}></Route>
 			<Route path='/owner/service' element={<ServicePage></ServicePage>}></Route>
+			<Route path='/owner/services' element={<ServicePage></ServicePage>}></Route>
+			<Route path='/owner/settings' element={<OwnerSettingsPage></OwnerSettingsPage>}></Route>
 		</Routes>
 
 	)
