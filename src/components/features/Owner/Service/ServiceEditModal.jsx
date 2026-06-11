@@ -1,6 +1,9 @@
 import { X } from 'lucide-react'
 import Button from '../../../ui/Button'
-function ServiceEditModal({selectedId, isEditing, onClose, saveEditedData, onWordPressEdit, editFormData }) {
+function 
+
+
+ServiceEditModal({selectedId, isEditing, onClose, saveEditedData, onWordPressEdit, editFormData }) {
     // Placeholder props - rename as you like:
     // - isOpen: whether modal is visible
     // - onClose: close handler

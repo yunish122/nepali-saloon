@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import Button from '../../../ui/Button';
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-function ServiceHeading({ formData, setFormData, updateCardState,closeCard, updateWordPress, addService, setIsOpen, isOpen, isOpenEdit, isEditing,saveServiceEdit }) {
+function ServiceHeading({ formData, setFormData, updateCardState, closeCard, updateWordPress, addService, setIsOpen, isOpen, isOpenEdit, isEditing, saveServiceEdit }) {
 
 
 
@@ -26,9 +25,9 @@ function ServiceHeading({ formData, setFormData, updateCardState,closeCard, upda
                     <Button
                         type="button"
                         size="md"
+                        onClick={() => navigate(-1)}
                         className="rounded-lg border border-slate-400/40 px-2 py-1 font-medium text-black shadow-sm"
                     >
-                        <Link ></Link>
                         Back
                     </Button>
                     <div onClick={updateCardState}>
@@ -131,7 +130,7 @@ function ServiceHeading({ formData, setFormData, updateCardState,closeCard, upda
                 </div>
             )}
 
-           
+
         </>
     );
 }

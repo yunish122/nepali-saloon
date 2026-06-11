@@ -1,5 +1,6 @@
 
 import { Settings } from "lucide-react"
+import { Link } from "react-router-dom"
 function OwnerPageHeading(){
 
     return(
@@ -11,7 +12,7 @@ function OwnerPageHeading(){
 
             <div className="flex gap-2 items-center border-1 w-fit px-2 py-1 rounded-lg hover:cursor-pointer bg-black">
                 <Settings className="text-white w-4"></Settings>
-                <span className="text-white text-sm font-medium">Manage Saloon</span>
+                <Link to={'/owner/services'} className="text-white text-sm font-medium">Manage Saloon</Link>
             </div>
 
         </div>

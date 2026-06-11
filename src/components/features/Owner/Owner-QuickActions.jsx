@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom';
 import Button from '../../ui/Button';
 
 function OwnerQuickActions({
     actions = [
-        { key: 'manage_services', label: 'Manage Services' },
-        { key: 'view_ratings', label: 'View Ratings' },
-        { key: 'payment_history', label: 'Payment History' },
+        { key: 'manage_services', label: 'Manage Services', path: '/owner/services' },
+        // { key: 'view_ratings', label: 'View Ratings' },
+        // { key: 'payment_history', label: 'Payment History' },
     ],
     bottomAction = { key: 'settings', label: 'Salon Settings' },
 }) {
@@ -17,12 +18,16 @@ function OwnerQuickActions({
 
                 <div className="space-y-4">
                     {actions.map((a) => (
-                        <Button
+                        <Link
                             key={a.key}
                             title={a.label}
                             size="md"
-                            className="w-full text-left rounded-[12px] bg-slate-50 px-6 py-4 text-slate-800 font-medium border border-slate-100 transition-colors duration-150 hover:bg-slate-100"
-                        />
+                            className="w-full flex text-left rounded-[12px] bg-slate-50 px-6 py-4 text-slate-800 font-medium border border-slate-100 transition-colors duration-150 hover:bg-slate-100"
+                            to={a.path}
+                        >
+
+                            Manange Saloon
+                        </Link>
                     ))}
                 </div>
             </div>
