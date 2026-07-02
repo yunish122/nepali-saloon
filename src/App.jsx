@@ -31,12 +31,12 @@ function App() {
 			<Route path='/customer' element={<CustomerPage></CustomerPage>}></Route>
 			<Route path='/customer/my-queue' element={<CustomerQueuePage></CustomerQueuePage>}></Route>
 			<Route path='/customer/salon' element={<CustomerViewDetailPage></CustomerViewDetailPage>}></Route>
-			
+
 			<Route path='/owner/path' element={<OwnerPage></OwnerPage>}></Route>
 			<Route path='/owner/service' element={<ServicePage></ServicePage>}></Route>
 			<Route path='/owner/services' element={<ServicePage></ServicePage>}></Route>
 			<Route path='/owner/settings' element={<OwnerSettingsPage></OwnerSettingsPage>}></Route>
-			
+
 			<Route path='/login' element={<LoginPage></LoginPage>}></Route>
 		</Routes>
 

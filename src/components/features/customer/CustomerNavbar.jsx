@@ -19,7 +19,7 @@ function CustomerNavbar({ buttons = [] }) {
                 <User className="hover:cursor-pointer w-5 text-slate-500/70"></User>
             </div>
         </header>
-        
+
     )
 
 }

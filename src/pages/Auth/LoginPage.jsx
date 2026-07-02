@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState } from "react"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import CustomerPage from "../CustomerPage/CustomerPage"
 import OwnerPage from "../OwnerPage/OwnerPage"
 function LoginPage() {
@@ -9,7 +9,7 @@ function LoginPage() {
     let [passPress, setPassPress] = useState('')
     let [userRole, setUserRole] = useState('customer')
 
-    const navigate  = useNavigate()
+    const navigate = useNavigate()
     function updateEmailWordPress(e) {
         setEmailWordPress(e.target.value)
     }
@@ -28,12 +28,12 @@ function LoginPage() {
         try {
             const csrf = await axios.get('http://localhost:81/sanctum/csrf-cookie', { withCredentials: true, withXSRFToken: true })  //this will pause submitData until promise resolves and then the submitData resumes and moves to next line
             const res = await axios.post('http://localhost:81/login', { "email": emailWordPress, "password": passPress, "role": userRole }, { withCredentials: true, withXSRFToken: true })
-            if ((res.status === 200 || res.status === 204) ){
+            if ((res.status === 200 || res.status === 204)) {
                 navigate('/customer')
             }
-            if ((res.status === 200 || res.status === 204) && res.role === 'owner' ){
+            if ((res.status === 200 || res.status === 204) && res.role === 'owner') {
                 navigate('/owner/path')
-                
+
             }
         } catch (err) {
             console.log(err.response)
@@ -139,10 +139,10 @@ function LoginPage() {
                     <div className="my-6 h-px w-full bg-slate-200" />
 
                     {/* <Link to={}> */}
-                        <p className="text-center text-[15px] text-slate-500">
-                            Don&apos;t have an account? <span className="font-semibold text-slate-700">Create one</span>
-                        </p>
-                    
+                    <p className="text-center text-[15px] text-slate-500">
+                        Don&apos;t have an account? <span className="font-semibold text-slate-700">Create one</span>
+                    </p>
+
                     {/* </Link> */}
 
                     <div className="mt-6 rounded-2xl bg-slate-100 px-5 py-4">
