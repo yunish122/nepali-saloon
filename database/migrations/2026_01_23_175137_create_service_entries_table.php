@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('service_name');
             $table->foreignId('user_id')->constrained();
             $table->foreignId('shop_id')->constrained();
-            $table->unique('shop_id','service_name');
-        });     
+            $table->unique(['shop_id', 'service_name']);
+        });
     }
 
     /**

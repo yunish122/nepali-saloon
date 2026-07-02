@@ -2,20 +2,17 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Shop;
-use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-    use HasRoles;
-    use HasApiTokens;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'phoneNum',
         'password',
@@ -47,17 +45,33 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'password' => 'hashed',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
-            'password' => 'hashed',
         ];
     }
 
-    public function shop(){
-        return $this->hasMany(Shop::class);
+    /**
+     * Get the shops owned by this user (if user is an owner)
+     */
+    public function shops()
+    {
+        return $this->hasMany(Shop::class, 'owner_id');
     }
 
-    public function rating(){
-        return $this->hasMany(Rating::class);
+    /**
+     * Get the queue entries for this user
+     */
+    public function queueEntries()
+    {
+        return $this->hasMany(QueueEntry::class, 'user_id');
+    }
+
+    /**
+     * Get all shops where this user works as staff
+     */
+    public function staffShops()
+    {
+        return $this->belongsToMany(Shop::class, 'shop_staff', 'user_id', 'shop_id')->withTimestamps();
     }
 }

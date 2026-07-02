@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ShopStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +24,7 @@ class ShopFactory extends Factory
             'phone' => fake()->unique()->numerify('98########'),
             'opening_time' => fake()->time('H:i:s'),
             'closing_time' => fake()->time('H:i:s'),
-            'status' => 1,
+            'status' => ShopStatus::open,
             'user_id' => User::factory()
         ];
     }

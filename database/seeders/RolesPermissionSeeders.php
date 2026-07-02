@@ -13,7 +13,7 @@ class RolesPermissionSeeders extends Seeder
      */
     public function run(): void
     {
-        $onwerPermission = [ 
+        $ownerPermission = [ 
             'update_status.shop',
             'delete.shop',
             'block.shop',
@@ -58,7 +58,7 @@ class RolesPermissionSeeders extends Seeder
         
 
         $owner = Role::findByName('owner');
-        $owner->syncPermissions($onwerPermission);
+        $owner->syncPermissions($ownerPermission);
 
         $staff = Role::findByName('staff');
         $staff->syncPermissions($staffPermission);

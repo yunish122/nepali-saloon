@@ -23,7 +23,8 @@ class ShopController extends Controller
      */
     public function index()
     {
-        //
+        $data = Shop::all();
+        return response()->json($data,200);
     }
 
     /**

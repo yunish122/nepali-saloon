@@ -23,10 +23,10 @@ class QueueEntryFactory extends Factory
     public function definition(): array
     {
         return [
-            'shop_id'=>Shop::class,
-            'queue_id'=>Queue::class,
-            'service_id'=>Service::class,
-            'user_id'=>User::class,
+            // 'shop_id'=>Shop::factory(),
+            // 'queue_id'=>Queue::factory(),
+            'service_id'=>Service::factory(),
+            'user_id'=>User::factory(),
             'status'=>QueueEntryStatus::pending
         ];
     }

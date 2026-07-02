@@ -11,18 +11,19 @@ use App\Models\User;
 use App\Services\CreateServiceService;
 use App\Services\DeleteServiceService;
 use App\Services\UpdateServiceService;
-use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    public function __construct(private CreateServiceService $create_service_service,private DeleteServiceService $delete_service, private UpdateServiceService $update_service_service)
-    {}
+    public function __construct(private CreateServiceService $create_service_service, private DeleteServiceService $delete_service, private UpdateServiceService $update_service_service) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $data = Service::all();
+
+        return response()->json($data, 200);
     }
 
     /**
@@ -30,47 +31,51 @@ class ServiceController extends Controller
      */
     public function store(CreateServiceRequest $request)
     {
-        
-        $service = $this->create_service_service->execute($request->validated(), $request->shop);
-        
-        return response()->json($service,201);
+        $validated = $request->validated();
+        $shop = Shop::findOrFail($validated['shop_id']);
+    
+        $service = $this->create_service_service->execute($validated, $shop);
+
+        return response()->json($service, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show()
-    {
-
-    }
+    public function show() {}
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateServiceRequest $request, Service $service)
     {
-        $serv = $this->update_service_service->update_service($service,$request->validated());
+        $serv = $this->update_service_service->update_service($service, $request->validated());
+
         return $serv;
     }
-
-
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user,Shop $shop, Service $service)
+    public function destroy(Service $service)
     {
-        try{
+        try {
+            $user = $service->user;
+            $shop = $service->shop;
 
-            if(($shop->user_id === $user->id) && $user->can('delete.service')){
+            if (($shop->user_id === $user->id) && $user->can('delete.service')) {
+
                 $this->delete_service->softDelete($service);
 
-            }else{
-                throw CanNotDeleteServiceException::unauthorizeServiceDeletion($user,$shop,$service);
-            }            
-        }catch (CanNotDeleteServiceException $e){
-            return response()->json(['error'=>$e->getMessage()]);
-        }
+            } else {
+                throw CanNotDeleteServiceException::unauthorizeServiceDeletion($user, $shop, $service);
+            }
+        } catch (CanNotDeleteServiceException $e) {
+   // dd("hya samma pugexa");
 
+            return response()->json(['error' => $e->getMessage()]);
+        }
+        return response()->json("deleted",201);
     }
+    
 }

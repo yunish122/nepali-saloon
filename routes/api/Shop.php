@@ -1,14 +1,10 @@
 <?php
-    use App\Http\Controllers\ShopController;
-    use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ShopController;
+use Illuminate\Support\Facades\Route;
 
-    Route::middleware(['auth:sanctum'])->group(function () {
-        Route::apiResource('shops',ShopController::class)->only('index', 'show');
-    });
+Route::apiResource('shops', ShopController::class)->only('index', 'show');
 
-    Route::middleware(['auth:sanctum','role:owner'])->group(function(){
-        Route::apiResource('shops',ShopController::class)->only('update', 'destroy', 'store');
-    });
-
-?>
+Route::middleware(['auth:sanctum', 'role:owner'])->group(function () {
+    Route::apiResource('shops', ShopController::class)->only('update', 'destroy', 'store');
+});
