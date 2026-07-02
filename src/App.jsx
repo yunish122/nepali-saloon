@@ -16,6 +16,7 @@ import OwnerPage from './pages/OwnerPage/OwnerPage';
 import ServicePage from './pages/OwnerPage/ServicePage';
 import OwnerSettingsUI from './components/features/Owner/OwnerSettingsUI';
 import OwnerSettingsPage from './pages/OwnerPage/OwnerSettingPage';
+import LoginPage from './pages/Auth/LoginPage';
 
 
 
@@ -35,6 +36,8 @@ function App() {
 			<Route path='/owner/service' element={<ServicePage></ServicePage>}></Route>
 			<Route path='/owner/services' element={<ServicePage></ServicePage>}></Route>
 			<Route path='/owner/settings' element={<OwnerSettingsPage></OwnerSettingsPage>}></Route>
+			
+			<Route path='/login' element={<LoginPage></LoginPage>}></Route>
 		</Routes>
 
 	)

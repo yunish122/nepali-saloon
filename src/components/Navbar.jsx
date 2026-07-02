@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import Button from "./ui/Button";
+
 function Navbar({ buttons = [] }) {
 
     return (
@@ -12,12 +14,12 @@ function Navbar({ buttons = [] }) {
                 <h1 className="text-xs font-semibold">Saloon Queuing System</h1>
             </div>
             <div>
-                <Button title="Sign in" size="sm" className=" hover:cursor-pointer font-medium bg-black text-white border-1 rounded-lg"></Button>
-                {
-                    buttons.map((val, idx) => {
-                        <Button onclick={val.onclick}>{val.label}</Button>
-                    })
-                }
+                <Link to={'/login'}>
+                    <Button  title="Sign in" size="sm" className=" hover:cursor-pointer font-medium bg-black text-white border-1 rounded-lg">
+                    </Button> 
+                </Link>
+
+
             </div>
         </header>
     )
