@@ -1,8 +1,7 @@
 import axios from "axios"
+import { ClipboardSignature } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import CustomerPage from "../CustomerPage/CustomerPage"
-import OwnerPage from "../OwnerPage/OwnerPage"
 function LoginPage() {
 
     let [emailWordPress, setEmailWordPress] = useState('')
@@ -26,12 +25,17 @@ function LoginPage() {
     async function submitLoginData(e) {
         e.preventDefault()
         try {
-            const csrf = await axios.get('http://localhost:81/sanctum/csrf-cookie', { withCredentials: true, withXSRFToken: true })  //this will pause submitData until promise resolves and then the submitData resumes and moves to next line
+
+            await axios.get('http://localhost:81/sanctum/csrf-cookie', { withCredentials: true, withXSRFToken: true })  //this will pause submitData until promise resolves and then the submitData resumes and moves to next line
             const res = await axios.post('http://localhost:81/login', { "email": emailWordPress, "password": passPress, "role": userRole }, { withCredentials: true, withXSRFToken: true })
-            if ((res.status === 200 || res.status === 204)) {
+
+            const json = JSON.parse(res.config.data)
+
+            if ((res.status === 200 || res.status === 204) && json.role === 'customer') {
                 navigate('/customer')
             }
             if ((res.status === 200 || res.status === 204) && res.role === 'owner') {
+                console.log('owner ')
                 navigate('/owner/path')
 
             }
@@ -138,12 +142,12 @@ function LoginPage() {
 
                     <div className="my-6 h-px w-full bg-slate-200" />
 
-                    {/* <Link to={}> */}
                     <p className="text-center text-[15px] text-slate-500">
-                        Don&apos;t have an account? <span className="font-semibold text-slate-700">Create one</span>
+                        Don&apos;t have an account?{' '}
+                        <button type="button" onClick={() => navigate('/register')} className="font-semibold text-slate-700">
+                            Create One
+                        </button>
                     </p>
-
-                    {/* </Link> */}
 
                     <div className="mt-6 rounded-2xl bg-slate-100 px-5 py-4">
                         <p className="text-center text-sm font-medium text-slate-500">Demo Credentials</p>
