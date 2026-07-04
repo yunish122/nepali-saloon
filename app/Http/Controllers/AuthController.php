@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Psy\Readline\Hoa\Console;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -17,25 +20,24 @@ class AuthController extends Controller
         //
     }
 
-    public function login(LoginRequest $req){
+    public function login(LoginRequest $req)
+    {
         $cred = $req->validated();
         $data = $req->safe()->only(['email', 'password']);
-        
-        if(!Auth::attempt($data)){
+        if (!Auth::attempt($data)) {
             return response()->json([
-                'message'=>'Not valid credential'
-            ]);
+                'message' => 'Not valid credential',
+            ],401);
         }
 
-        
         $req->session()->regenerate();
-
         return response()->json([
-            'message'=>'login successful',
-            'user'=>Auth::user(),
-            'role' => $cred->role
-            
+            'message' => 'login successful',
         ]);
+    }
+
+    public function register(RegisterRequest $req){
+        return 0;
     }
 
     /**
@@ -43,7 +45,30 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'string', 'confirmed'],
+            'role' => ['required', 'in:customer,staff,owner'],
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        $user->assignRole($validated['role']);
+
+        Auth::login($user);
+
+        $request->session()->regenerate();
+
+        return response()->json([
+            'message' => 'registration successful',
+            'user' => $user,
+            'role' => $validated['role'],
+        ], 201);
     }
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class LoginRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email','max:255','exists:users,email'],
-            'password' => ['required', 'string','min:5','max:100',],
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
             'role'=>['required','string']
         ];
     }
