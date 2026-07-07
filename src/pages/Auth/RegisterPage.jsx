@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
 
@@ -10,13 +11,21 @@ function RegisterPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [role, setRole] = useState('Customer');
+    const [userData, setUserData] = useState({})
+
+    const navigate = useNavigate()
 
     async function handleSubmit(e){
         e.preventDefault();
         try{
             const csrf = await axios.get('http://localhost:81/sanctum/csrf-cookie',{withCredentials: true, withXSRFToken: true})
             const res = await axios.post('http://localhost:81/register',{'name': name, 'email': email, 'phoneNum': phone, 'password': password, 'role': role},{withCredentials:true,withXSRFToken: true})
-            console.log(res)
+            setUserData(res.data)
+
+            navigate('/customer')
+
+            
+
         }catch(err){
             console.log(err.response)
         }
