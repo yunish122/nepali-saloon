@@ -13,14 +13,14 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CreateShopService{
-    public function createShop(User $user, $data){
+    public function createShop(User $user, array $data){
         //invarient 1 owner must not have more than 3 shop
         if($user->shop()->count() >= 3){
             throw NoMoreThanThreeShopException::noMoreThanThreeShop($user->id);
         }
 
         //atomicity
-        DB::transaction(function () use($data,$user){
+        return DB::transaction(function () use($data,$user){
             $shop = Shop::create([
                 'shop_name'=>$data['shop_name'],
                 'location' => $data['location'],
