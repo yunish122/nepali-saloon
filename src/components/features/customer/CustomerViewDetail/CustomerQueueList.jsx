@@ -1,91 +1,33 @@
-function CustomerQueueList(){
+import { Clock, Users } from 'lucide-react';
+
+function CustomerQueueList({ queueEntries, estimatedWaitMinutes }) {
     return (
-        <div className="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <section className="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="border-b border-slate-100 p-4 md:p-6">
+                <h2 className="text-lg font-semibold text-slate-800">Current queue</h2>
+                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="flex items-center gap-3 rounded-xl bg-slate-50 px-4 py-3"><Users className="h-5 w-5 text-slate-600" /><div><p className="text-lg font-semibold text-slate-800">{queueEntries.length}</p><p className="text-xs text-slate-500">Currently waiting</p></div></div>
+                    <div className="flex items-center gap-3 rounded-xl bg-slate-50 px-4 py-3"><Clock className="h-5 w-5 text-slate-600" /><div><p className="text-lg font-semibold text-slate-800">~{estimatedWaitMinutes} min</p><p className="text-xs text-slate-500">Estimated wait time</p></div></div>
+                </div>
+            </div>
+
             <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                    
-                    {/* 1. TABLE HEADER TRACK */}
-                    <thead>
-                        <tr className="bg-slate-200/70 border-b border-slate-200">
-                            <th className="px-6 py-4 text-sm font-semibold text-slate-700 w-24">Position</th>
-                            <th className="px-6 py-4 text-sm font-semibold text-slate-700">Customer</th>
-                            <th className="px-6 py-4 text-sm font-semibold text-slate-700">Phone</th>
-                            <th className="px-6 py-4 text-sm font-semibold text-slate-700">Wait Time</th>
-                            <th className="px-6 py-4 text-sm font-semibold text-slate-700 text-right pr-8">Status</th>
-                        </tr>
-                    </thead>
+                <table className="w-full border-collapse text-left">
+                    <thead><tr className="border-b border-slate-200 bg-slate-50 text-xs text-slate-500"><th className="px-4 py-3 md:px-6">Position</th><th className="px-4 py-3 md:px-6">Customer</th><th className="px-4 py-3 md:px-6">Estimated wait</th><th className="px-4 py-3 text-right md:px-6">Status</th></tr></thead>
                     <tbody className="divide-y divide-slate-100">
-                            <tr className="hover:bg-slate-50/50 transition-colors">
-                                
-                                {/* Position Badge Column */}
-                                <td className="px-6 py-4">
-                                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-sm font-semibold text-slate-700 bg-white shadow-sm">
-                                        1
-                                    </span>
-                                </td>
-
-                                {/* Customer Name Column */}
-                                <td className="px-6 py-4 text-sm font-medium text-slate-800">
-                                    Yunish
-                                </td>
-
-                                {/* Phone Column */}
-                                <td className="px-6 py-4 text-sm text-slate-500 font-medium">
-                                    98872384723
-                                </td>
-
-                                {/* Wait Time Column */}
-                                <td className="px-6 py-4 text-sm text-slate-800 font-semibold">
-                                    45min
-                                </td>
-
-                                {/* Status Badge Column - Pushed cleanly to the right edge */}
-                                <td className="px-6 py-4 text-right pr-8">
-                                    <span className="inline-flex items-center rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 shadow-sm">
-                                    status
-                                    </span>
-                                </td>
-
+                        {queueEntries.map((entry, index) => (
+                            <tr key={entry.id} className="text-sm text-slate-700">
+                                <td className="px-4 py-4 md:px-6"><span className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-slate-200 bg-white text-xs font-semibold">{index + 1}</span></td>
+                                <td className="px-4 py-4 font-medium md:px-6">{entry.customer}</td>
+                                <td className="px-4 py-4 md:px-6">{entry.waitMinutes === 0 ? 'Being served' : `~${entry.waitMinutes} min`}</td>
+                                <td className="px-4 py-4 text-right md:px-6"><span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${entry.status === 'In progress' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>{entry.status}</span></td>
                             </tr>
-
-                                                        <tr className="hover:bg-slate-50/50 transition-colors">
-                                
-                                {/* Position Badge Column */}
-                                <td className="px-6 py-4">
-                                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-sm font-semibold text-slate-700 bg-white shadow-sm">
-                                        1
-                                    </span>
-                                </td>
-
-                                {/* Customer Name Column */}
-                                <td className="px-6 py-4 text-sm font-medium text-slate-800">
-                                    Yunish
-                                </td>
-
-                                {/* Phone Column */}
-                                <td className="px-6 py-4 text-sm text-slate-500 font-medium">
-                                    98872384723
-                                </td>
-
-                                {/* Wait Time Column */}
-                                <td className="px-6 py-4 text-sm text-slate-800 font-semibold">
-                                    45min
-                                </td>
-
-                                {/* Status Badge Column - Pushed cleanly to the right edge */}
-                                <td className="px-6 py-4 text-right pr-8">
-                                    <span className="inline-flex items-center rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 shadow-sm">
-                                    status
-                                    </span>
-                                </td>
-
-                            </tr>
-                        
+                        ))}
                     </tbody>
                 </table>
             </div>
-        </div>
-    )
+        </section>
+    );
 }
 
-export default CustomerQueueList
+export default CustomerQueueList;

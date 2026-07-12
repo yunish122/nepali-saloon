@@ -1,33 +1,65 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { API_BASE_URL, ensureCsrfCookie } from '../../lib/auth';
+import { getApiErrorMessage } from '../../lib/apiErrors';
 
 function RegisterPage() {
 
-    // State variables for form fields
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [role, setRole] = useState('Customer');
-    const [userData, setUserData] = useState({})
+    const [role, setRole] = useState('customer');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate()
 
     async function handleSubmit(e){
         e.preventDefault();
+        setErrorMessage('');
+
+        if (password !== confirmPassword) {
+            setErrorMessage('Passwords do not match.');
+            return;
+        }
+
+        setIsSubmitting(true);
+
         try{
-            const csrf = await axios.get('http://localhost:81/sanctum/csrf-cookie',{withCredentials: true, withXSRFToken: true})
-            const res = await axios.post('http://localhost:81/register',{'name': name, 'email': email, 'phoneNum': phone, 'password': password, 'role': role},{withCredentials:true,withXSRFToken: true})
-            setUserData(res.data)
+            await ensureCsrfCookie();
+            const res = await axios.post(
+                `${API_BASE_URL}/register`,
+                {
+                    name,
+                    email,
+                    phoneNum: phone,
+                    password,
+                    role: role.toLowerCase(),
+                },
+                { withCredentials: true, withXSRFToken: true },
+            );
 
-            navigate('/customer')
+            if (res.status === 201) {
+                if (role === 'owner') {
+                    navigate('/owner/path');
+                } else if (role === 'staff') {
+                    navigate('/staff/dashboard');
+                } else {
+                    navigate('/customer');
+                }
+                return;
+            }
 
-            
-
-        }catch(err){
-            console.log(err.response)
+            if (res.data?.message) {
+                setErrorMessage(res.data.message);
+            }
+        } catch (err) {
+            setErrorMessage(getApiErrorMessage(err, 'Unable to create your account. Please try again.'));
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -49,6 +81,12 @@ function RegisterPage() {
                     <h2 className="text-xl font-bold text-slate-800">Sign Up</h2>
                     <p className="text-sm text-slate-400 mt-1">Register to get started with SalonHub</p>
                 </div>
+
+                {errorMessage && (
+                    <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+                        {errorMessage}
+                    </div>
+                )}
 
                 <form onSubmit={(e)=>{handleSubmit(e)}} className="space-y-4">
 
@@ -133,17 +171,21 @@ function RegisterPage() {
                             Select Your Role
                         </label>
                         <div className="space-y-2.5">
-                            {['Customer', 'Staff', 'Owner'].map((roleOption) => (
-                                <label key={roleOption} className="flex items-center space-x-3 cursor-pointer select-none text-sm text-slate-600">
+                            {[
+                                { label: 'Customer', value: 'customer' },
+                                { label: 'Staff', value: 'staff' },
+                                { label: 'Owner', value: 'owner' },
+                            ].map((roleOption) => (
+                                <label key={roleOption.value} className="flex items-center space-x-3 cursor-pointer select-none text-sm text-slate-600">
                                     <input
                                         type="radio"
                                         name="role"
-                                        value={roleOption}
-                                        checked={role === roleOption}
+                                        value={roleOption.value}
+                                        checked={role === roleOption.value}
                                         onChange={(e) => setRole(e.target.value)}
                                         className="w-4 h-4 text-slate-900 border-slate-300 focus:ring-0 accent-slate-900"
                                     />
-                                    <span>{roleOption}</span>
+                                    <span>{roleOption.label}</span>
                                 </label>
                             ))}
                         </div>
@@ -153,9 +195,10 @@ function RegisterPage() {
                     <div className="pt-4">
                         <button
                             type="submit"
-                            className="w-full py-3 bg-[#0d1527] text-white text-sm font-medium rounded-xl hover:bg-slate-800 transition shadow-sm"
+                            disabled={isSubmitting}
+                            className="w-full py-3 bg-[#0d1527] text-white text-sm font-medium rounded-xl hover:bg-slate-800 transition shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            Create Account
+                            {isSubmitting ? 'Creating account...' : 'Create Account'}
                         </button>
                     </div>
                 </form>
@@ -163,9 +206,9 @@ function RegisterPage() {
                 {/* Footer Link */}
                 <div className="mt-6 text-center text-sm text-slate-500">
                     Already have an account?{' '}
-                    <a href="#signin" className="font-semibold text-slate-900 hover:underline">
+                    <Link to="/login" className="font-semibold text-slate-900 hover:underline">
                         Sign in
-                    </a>
+                    </Link>
                 </div>
             </div>
 

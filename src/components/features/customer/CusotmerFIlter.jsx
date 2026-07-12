@@ -2,7 +2,7 @@
 import { Search } from 'lucide-react';
 import { MapPin } from 'lucide-react';
 
-function CustomerFilter() {
+function CustomerFilter({ searchValue, onSearchChange, locationValue, onLocationChange }) {
     return (
         <section className="flex items-center w-full gap-4 mt-3  ">
             {/* left search filter */}
@@ -10,7 +10,13 @@ function CustomerFilter() {
                 <span className="text-xs font-semibold text-gray-900/70">Search</span>
                 <div className='flex items-center gap-2 w-full bg-white px-3 py-1.5 border-slate-200 bg-white rounded-md border-1 focus-within:border-slate-400 focus-within:ring-1 focus-within:ring-slate-400 transition-all'>
                     <Search className='shrink-0 w-4 h-4 text-slate-500'></Search>
-                    <input className="w-full bg-transparent outline-none border-gray-500/40 rounded-md" type="text" placeholder="Abc Saloon..." />
+                    <input
+                        className="w-full bg-transparent outline-none border-gray-500/40 rounded-md"
+                        type="text"
+                        placeholder="Search salons..."
+                        value={searchValue}
+                        onChange={(event) => onSearchChange(event.target.value)}
+                    />
 
                 </div>
             </div>
@@ -19,7 +25,11 @@ function CustomerFilter() {
                 <span className="text-xs font-semibold text-gray-900/70">Location</span>
                 <div className='flex items-center gap-2 bg-white px-3 py-1.5 w-full border-slate-200 bg-white rounded-md border-1 focus-within:border-slate-400 focus-within:ring-1 focus-within:ring-slate-400 transition-all'>
                     <MapPin className='shrink-0 w-4 h-4 text-slate-500'></MapPin>
-                    <select className="w-full bg-transparent outline-none px-3 border-gray-500/40 rounded-md" defaultValue={"kathmandu"} >
+                    <select
+                        className="w-full bg-transparent outline-none px-3 border-gray-500/40 rounded-md"
+                        value={locationValue}
+                        onChange={(event) => onLocationChange(event.target.value)}
+                    >
                         <option value="all">All location</option>
                         <option value="lalitpur">Lalitpur</option>
                         <option value="kathmandu">Kathmandu</option>

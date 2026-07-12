@@ -1,13 +1,34 @@
 import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import CustomerPage from "../CustomerPage/CustomerPage"
-import OwnerPage from "../OwnerPage/OwnerPage"
+import { API_BASE_URL, ensureCsrfCookie, getAuthenticatedUser } from "../../lib/auth"
+import { getApiErrorMessage } from "../../lib/apiErrors"
+
+function resolvePostLoginPath(user, selectedRole) {
+    const roleNames = (user?.roles ?? []).map((role) => role.name);
+
+    if (selectedRole === 'owner' && roleNames.includes('owner')) {
+        return '/owner/path';
+    }
+
+    if (selectedRole === 'staff' && roleNames.some((role) => role === 'staff' || role === 'owner')) {
+        return '/staff/dashboard';
+    }
+
+    if (selectedRole === 'customer' && roleNames.includes('customer')) {
+        return '/customer';
+    }
+
+    return null;
+}
+
 function LoginPage() {
 
     let [emailWordPress, setEmailWordPress] = useState('')
     let [passPress, setPassPress] = useState('')
     let [userRole, setUserRole] = useState('customer')
+    const [errorMessage, setErrorMessage] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const navigate = useNavigate()
     function updateEmailWordPress(e) {
@@ -25,18 +46,32 @@ function LoginPage() {
 
     async function submitLoginData(e) {
         e.preventDefault()
-        try {
-            const csrf = await axios.get('http://localhost:81/sanctum/csrf-cookie', { withCredentials: true, withXSRFToken: true })  //this will pause submitData until promise resolves and then the submitData resumes and moves to next line
-            const res = await axios.post('http://localhost:81/login', { "email": emailWordPress, "password": passPress, "role": userRole }, { withCredentials: true, withXSRFToken: true })
-            if ((res.status === 200 || res.status === 204)) {
-                navigate('/customer')
-            }
-            if ((res.status === 200 || res.status === 204) && res.role === 'owner') {
-                navigate('/owner/path')
+        setErrorMessage('')
+        setIsSubmitting(true)
 
+        try {
+            await ensureCsrfCookie()
+            const res = await axios.post(
+                `${API_BASE_URL}/login`,
+                { email: emailWordPress, password: passPress, role: userRole },
+                { withCredentials: true, withXSRFToken: true },
+            )
+
+            if (res.status === 200 || res.status === 204) {
+                const user = await getAuthenticatedUser();
+                const destination = resolvePostLoginPath(user, userRole);
+
+                if (!destination) {
+                    setErrorMessage('This account cannot sign in with the selected role.');
+                    return;
+                }
+
+                navigate(destination);
             }
         } catch (err) {
-            console.log(err.response)
+            setErrorMessage(getApiErrorMessage(err, 'Invalid email or password.'))
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -60,6 +95,12 @@ function LoginPage() {
                         <h2 className="text-xl font-semibold text-slate-700">Sign In</h2>
                         <p className="mt-1 text-sm text-slate-500">Enter your credentials to access your account</p>
                     </div>
+
+                    {errorMessage && (
+                        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+                            {errorMessage}
+                        </div>
+                    )}
 
                     <div className="space-y-4">
                         <label className="block">
@@ -130,9 +171,10 @@ function LoginPage() {
 
                         <button
                             type="submit"
-                            className="mt-2 h-10 w-full rounded-lg bg-[#121b31] text-[15px] font-semibold text-white transition hover:bg-[#0d1527] focus:outline-none focus:ring-2 focus:ring-[#121b31]/20"
+                            disabled={isSubmitting}
+                            className="mt-2 h-10 w-full rounded-lg bg-[#121b31] text-[15px] font-semibold text-white transition hover:bg-[#0d1527] focus:outline-none focus:ring-2 focus:ring-[#121b31]/20 disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            Sign In
+                            {isSubmitting ? 'Signing in...' : 'Sign In'}
                         </button>
                     </div>
 
@@ -150,11 +192,11 @@ function LoginPage() {
                         <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
                             <div>
                                 <p className="font-semibold text-slate-700">Customer</p>
-                                <p className="text-slate-500">customer@demo.com</p>
+                                <p className="text-slate-500">customer@test.com</p>
                             </div>
                             <div>
                                 <p className="font-semibold text-slate-700">Staff</p>
-                                <p className="text-slate-500">staff@demo.com</p>
+                                <p className="text-slate-500">staff@test.com</p>
                             </div>
                         </div>
                     </div>

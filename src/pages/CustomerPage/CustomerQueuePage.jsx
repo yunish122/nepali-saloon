@@ -1,17 +1,20 @@
-import CustomerQueueGrid from "../../components/features/customer/CustomerQueue/CustomerQueueGrid"
-import CustomerQueueHeading from "../../components/features/customer/CustomerQueue/CustomerQueueHeading"
-import CustomerNavbar from "../../components/features/customer/CustomerNavbar"
-function CustomerQueuePage() {
-    return (
-        <div>
-            <CustomerNavbar></CustomerNavbar>
-            <main className="max-w-4xl mx-auto py-10 flex flex-col gap-10 ">
-                <CustomerQueueHeading></CustomerQueueHeading>
-                <CustomerQueueGrid></CustomerQueueGrid>
-            </main>
+import CustomerQueueGrid from '../../components/features/customer/CustomerQueue/CustomerQueueGrid';
+import CustomerQueueHeading from '../../components/features/customer/CustomerQueue/CustomerQueueHeading';
+import CustomerNavbar from '../../components/features/customer/CustomerNavbar';
+import { useCustomerQueue } from '../../context/CustomerQueueContext';
 
+function CustomerQueuePage() {
+    const { appointments, removeAppointment } = useCustomerQueue();
+
+    return (
+        <div className="min-h-screen bg-slate-50">
+            <CustomerNavbar />
+            <main className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-10 md:px-6">
+                <CustomerQueueHeading />
+                <CustomerQueueGrid appointments={appointments} onRemoveAppointment={removeAppointment} />
+            </main>
         </div>
-        // <CustomerQueueGrid></CustomerQueueGrid>
-    )
+    );
 }
-export default CustomerQueuePage
+
+export default CustomerQueuePage;
